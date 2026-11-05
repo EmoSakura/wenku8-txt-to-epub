@@ -1,6 +1,6 @@
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing
-$assets=Join-Path (Get-Location) 'outputs\wenku8-txt-to-epub\assets'
+$assets=Join-Path (Split-Path $PSScriptRoot -Parent) 'assets'
 $source=[Drawing.Image]::FromFile((Join-Path $assets 'app-icon.png'))
 $frames=@()
 try {
