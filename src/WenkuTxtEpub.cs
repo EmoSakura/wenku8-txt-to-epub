@@ -45,6 +45,7 @@ namespace WenkuTxtEpub {
     Button download = new Button(), local = new Button(), browse = new Button();
     bool busy;
     public MainForm() {
+      Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
       Text = "轻小说文库 · TXT 转 EPUB";
       ClientSize = new Size(700, 490); MinimumSize = new Size(716, 529);
       Font = new Font("Microsoft YaHei UI", 10); StartPosition = FormStartPosition.CenterScreen;

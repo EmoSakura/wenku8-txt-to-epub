@@ -1,5 +1,9 @@
 # 轻小说文库 TXT 转 EPUB
 
+<img src="assets/app-icon.png" width="160" alt="二次元魔法图书馆图标" />
+
+[下载 Windows 软件（1.0.1）](downloads/WenkuTxtEpub-1.0.1-win.zip)
+
 面向 **轻小说文库（Wenku8）** 的 Windows 小说下载与格式转换工具。支持输入文库书籍链接获取 TXT 并转换为带目录的 EPUB，也可以直接批量转换本地 TXT。
 
 这是一个独立工具，不是轻小说文库官方软件，也不是 bili_novel_packer 的修改版。
