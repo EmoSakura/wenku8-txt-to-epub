@@ -1,75 +1,44 @@
 # 轻小说文库 TXT 转 EPUB
 
-<img src="assets/app-icon.png" width="160" alt="二次元魔法图书馆图标" />
+<img src="https://raw.githubusercontent.com/EmoSakura/wenku8-txt-to-epub/main/assets/icon-preview.png" width="128" alt="软件图标" />
 
-[下载 Windows 软件（1.0.1）](downloads/WenkuTxtEpub-1.0.1-win.zip)
+面向轻小说文库（Wenku8）的非官方 Windows 工具，支持通过书籍链接下载 TXT 并转换为 EPUB，也支持本地 TXT 批量转换。
 
-面向 **轻小说文库（Wenku8）** 的 Windows 小说下载与格式转换工具。支持输入文库书籍链接获取 TXT 并转换为带目录的 EPUB，也可以直接批量转换本地 TXT。
+**[下载 Windows 版 1.0.1](https://github.com/EmoSakura/wenku8-txt-to-epub/raw/refs/heads/main/downloads/WenkuTxtEpub-1.0.1-win.zip)**
 
-这是一个独立工具，不是轻小说文库官方软件。
+## 使用
 
-## 功能
+运行环境：Windows 10/11，需 .NET Framework 4.5 或更高版本。解压后运行 `WenkuTxtEpub.exe`。
 
-- **链接下载与转换**：识别文库书籍编号，尝试网站的两个 TXT 下载载点，保存 TXT 和 EPUB。
-- **本地批量转换**：一次选择多个 TXT 文件。
-- **中文编码识别**：支持 UTF-8、带 BOM 的 UTF-16/UTF-32，以及常见 GBK/GB18030 文本。
-- **自动目录**：识别“第 X 卷”“第 X 章”等章节标题，保留空章节标题；无标题长文本按大小分段。
-- **兼容目录**：输出 EPUB 3，并附带 NCX 目录。
-- **文件保护**：同名文件自动追加编号；生成后检查 XML、目录及资源引用。
-- 不读取浏览器密码或 Cookie，不内置账号。
+- **链接下载**：粘贴文库书籍链接，选择保存位置，点击“下载并转 EPUB”。成功后保存 TXT 和 EPUB。
+- **本地转换**：点击“选择 TXT 转换”，选择一个或多个 TXT 文件，生成 EPUB。
 
-## 使用方法
+链接格式示例：`https://www.wenku8.net/book/xxxxx.htm`，其中 `xxxxx` 应替换为实际书籍编号。
 
-运行环境为 Windows 10/11 和 .NET Framework 4.x，无需安装 Python 或 Dart。
+默认保存到程序目录下的“电子书”文件夹；同名输出自动追加编号。EPUB 请使用支持该格式的阅读器打开。
 
-下载发行包并解压，双击 `WenkuTxtEpub.exe`。
+## 格式支持
 
-### 从轻小说文库下载
+- 输入：UTF-8、带 BOM 的 UTF-16/UTF-32、GBK/GB18030 文本。无 BOM 时优先按 UTF-8 解码，失败后尝试 GB18030，编码识别可能存在歧义。
+- 输出：纯文字 EPUB 3，包含导航目录和 NCX 目录；不包含封面或插图。
+- 目录：按“第X卷”“第X章”“序章”等标题规则识别，保留空章节标题；过长章节按字符数分段。
 
-1. 粘贴书籍链接，例如 `https://www.wenku8.net/book/xxxxx.htm`。
-2. 选择保存文件夹。
-3. 点击 **下载并转 EPUB**。
-4. 完成后，在保存文件夹查看 TXT 和 EPUB。
+## 限制
 
-网站可能要求登录、拒绝程序请求或调整下载入口。遇到这种情况，请在已登录的浏览器中使用网站的 TXT 下载功能，再通过本工具转换。本工具不保证所有书籍或网络环境都能直接下载。
+- 单个输入文件不超过 80 MiB。转换会忽略空行、去除行首尾空白并重新排版，不保留 TXT 原始版式。
+- 网站下载依赖文库 TXT 下载入口，不使用浏览器登录状态。若下载被拒绝，请在浏览器下载 TXT 后使用本地转换。
+- 本地编码转换、章节保留、正文顺序和基本文件结构已验证；联网下载、图形界面及阅读器兼容性尚未完成全面测试。
 
-### 转换已有 TXT
+## 编译
 
-点击 **选择 TXT 转换**，可同时选中多个文件。默认保存到程序所在文件夹内的“电子书”目录，也可以另选有写入权限的文件夹。
-
-**EPUB 需要用支持 EPUB 的阅读器打开。记事本只能阅读 TXT，用记事本打开 EPUB 显示乱码属于正常现象。**
-
-## 限制与测试状态
-
-- 输出为纯文字 EPUB，无法恢复 TXT 中没有的封面或插图。
-- 单个输入文件上限为 80 MB；章节识别基于标题格式，不保证适配所有 TXT 排版。
-- UTF-8、GBK、UTF-16 中文转换、空章节保留、错误 HTML 输入拒绝以及 EPUB 文件结构已经测试。
-- 已用一份长篇小说 TXT 核对转换结果，43,945 行非空原文均按顺序保留。
-- 新 EXE 的联网下载和图形界面启动测试在开发环境中受到自动审批拦截，**尚未完成端到端验证**。下载逻辑使用本次已成功获取 TXT 的网站下载入口。
-
-仓库不包含小说正文、下载缓存、用户账号或个人日志。请仅下载和转换你有权使用的内容，并遵守来源网站的使用规则。
-
-## 从源码编译
-
-源码位于 `src/WenkuTxtEpub.cs`，使用 Windows Forms 和 .NET Framework 自带类库，没有第三方 NuGet 依赖。
-
-在仓库根目录运行：
+使用 C# / Windows Forms，无第三方 NuGet 依赖。在仓库根目录执行：
 
 ```powershell
 powershell -File .\scripts\build.ps1
 ```
 
-编译结果位于 `dist/WenkuTxtEpub.exe`。
+输出文件：`dist/WenkuTxtEpub.exe`。版本变更见 [CHANGELOG](https://github.com/EmoSakura/wenku8-txt-to-epub/blob/main/CHANGELOG.md)。
 
-## 项目结构
+## 反馈
 
-```text
-src/WenkuTxtEpub.cs   程序界面、下载和 EPUB 转换逻辑
-scripts/build.ps1    Windows 编译脚本
-README.md           使用方法和限制说明
-CHANGELOG.md        版本记录
-```
-
-## 问题反馈
-
-请说明 Windows 版本、程序操作步骤，以及界面显示的错误文字。转换问题可提供不含隐私的简短测试 TXT；请勿提交账号密码、Cookie 或整本小说正文。
+提交 [Issue](https://github.com/EmoSakura/wenku8-txt-to-epub/issues) 时，请附上软件版本、操作步骤和错误信息。转换问题可附最小测试文本，请勿包含账号凭据或私人信息。
