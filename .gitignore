@@ -1,0 +1,10 @@
+dist/
+电子书/
+*.epub
+*.tmp
+*.tmp.fixed
+test-result.txt
+test-error.txt
+.vs/
+bin/
+obj/
