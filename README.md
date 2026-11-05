@@ -1,44 +1,57 @@
 # 轻小说文库 TXT 转 EPUB
 
-<img src="https://raw.githubusercontent.com/EmoSakura/wenku8-txt-to-epub/main/assets/icon-preview.png" width="128" alt="软件图标" />
+<img src="assets/icon-preview.png" width="112" alt="软件图标" />
 
-面向轻小说文库（Wenku8）的非官方 Windows 工具，支持通过书籍链接下载 TXT 并转换为 EPUB，也支持本地 TXT 批量转换。
+面向轻小说文库（Wenku8）的非官方桌面工具。支持在线读取 TXT、本地 TXT 转换、分卷选择与 EPUB 封面。
 
-**[下载 Windows 版 1.0.1](https://github.com/EmoSakura/wenku8-txt-to-epub/raw/refs/heads/main/downloads/WenkuTxtEpub-1.0.1-win.zip)**
+**[下载发布版](https://github.com/EmoSakura/wenku8-txt-to-epub/releases/latest)** · [测试记录](https://github.com/EmoSakura/wenku8-txt-to-epub/actions)
 
 ## 使用
 
-运行环境：Windows 10/11，需 .NET Framework 4.5 或更高版本。解压后运行 `WenkuTxtEpub.exe`。
+1. Windows 下载对应架构的 `.exe`，直接运行；macOS 解压后打开 `.app`；Linux 解压后运行 `WenkuTxtEpub`。
+2. 输入书籍链接，点击“读取在线卷目”；或选择本地 TXT。
+3. 选择需要的卷。勾选“合并所选卷”生成一个 EPUB，取消勾选则每卷单独保存。
+4. 点击“导出所选卷为 EPUB”。可同时保存所选内容的 UTF-8 TXT。
 
-- **链接下载**：粘贴文库书籍链接，选择保存位置，点击“下载并转 EPUB”。成功后保存 TXT 和 EPUB。
-- **本地转换**：点击“选择 TXT 转换”，选择一个或多个 TXT 文件，生成 EPUB。
+链接示例：`https://www.wenku8.net/book/xxxxx.htm`。将 `xxxxx` 替换为实际书籍编号。
 
-链接格式示例：`https://www.wenku8.net/book/xxxxx.htm`，其中 `xxxxx` 应替换为实际书籍编号。
+默认输出到用户下载目录下的 `WenkuTxtEpub` 文件夹；同名文件自动追加编号。一次选择多个本地 TXT 时，每个文件直接转换为一个完整 EPUB。
 
-默认保存到程序目录下的“电子书”文件夹；同名输出自动追加编号。EPUB 请使用支持该格式的阅读器打开。
+## 封面与格式
 
-## 格式支持
+- 在线书籍自动读取网站书籍封面，嵌入 EPUB 并保存同名 `.cover.png`；也可手动选择封面。各卷使用同一书籍封面，不代表各卷原版封面。不下载正文插图。
+- EPUB 包含标准封面标记、导航目录和 NCX 目录。阅读器可识别封面；资源管理器是否显示封面缩略图取决于系统支持。TXT 不含图片，不能自行显示书籍封面图标。
+- 支持 UTF-8、带 BOM 的 UTF-16/UTF-32、GBK/GB18030。无 BOM 时优先 UTF-8，失败后尝试 GB18030，识别可能存在歧义。
+- 分卷按“第X卷”标题识别，章节按“第X章”“序章”等规则识别。无法识别分卷时按全文处理，请在导出前核对卷目。
 
-- 输入：UTF-8、带 BOM 的 UTF-16/UTF-32、GBK/GB18030 文本。无 BOM 时优先按 UTF-8 解码，失败后尝试 GB18030，编码识别可能存在歧义。
-- 输出：纯文字 EPUB 3，包含导航目录和 NCX 目录；不包含封面或插图。
-- 目录：按“第X卷”“第X章”“序章”等标题规则识别，保留空章节标题；过长章节按字符数分段。
+## 平台与测试
+
+| 下载文件 | 原生测试环境 |
+| --- | --- |
+| `windows-x64.exe` / `windows-x86.exe` | Windows Server 2022；本机 Windows 测试见发布说明 |
+| `macos-x64.zip` | macOS 15 Intel |
+| `macos-arm64.zip` | macOS 15 Apple Silicon |
+| `linux-x64.tar.gz` / `linux-arm64.tar.gz` | Ubuntu 22.04，Xvfb 图形会话 |
+
+各平台分别编译，并测试打包程序的 TXT 转换、图形窗口、图标加载、分卷导出、封面与 EPUB 结构。Release 附测试报告和 SHA-256 校验值。测试环境以报告为准，不表示覆盖所有系统版本或阅读器。程序未进行商业代码签名或 macOS 公证。
 
 ## 限制
 
-- 单个输入文件不超过 80 MiB。转换会忽略空行、去除行首尾空白并重新排版，不保留 TXT 原始版式。
-- 网站下载依赖文库 TXT 下载入口，不使用浏览器登录状态。若下载被拒绝，请在浏览器下载 TXT 后使用本地转换。
-- 本地编码转换、章节保留、正文顺序和基本文件结构已验证；联网下载、图形界面及阅读器兼容性尚未完成全面测试。
+在线模式先读取整本 TXT，再导出所选卷；不使用浏览器登录状态。网站拒绝下载时，可在浏览器下载 TXT 后导入。封面失败不影响正文导出。
 
-## 编译
+单个 TXT 不超过 80 MiB。转换忽略空行、去除行首尾空白并重新排版。EPUB 应用阅读器打开，不能用记事本查看。请遵守来源网站条款和作品版权要求。
 
-使用 C# / Windows Forms，无第三方 NuGet 依赖。在仓库根目录执行：
+## 开发
 
-```powershell
-powershell -File .\scripts\build.ps1
+Python 3.12 与 Tkinter。安装 `requirements.txt` 后运行 `python app/main.py`。命令行转换：
+
+```sh
+python app/main.py --convert "example.txt" --output "books"
+python -m unittest discover -s tests -v
 ```
 
-输出文件：`dist/WenkuTxtEpub.exe`。版本变更见 [CHANGELOG](https://github.com/EmoSakura/wenku8-txt-to-epub/blob/main/CHANGELOG.md)。
+原生打包：安装 `requirements-build.txt`，执行 `python scripts/package.py --platform windows-x64`（平台名称按实际环境填写）。Linux 图形测试需要 Tk 和 Xvfb。旧版 C# 源码保留在 `src/`，`scripts/build.ps1` 仅用于旧版。
 
-## 反馈
+交互设计参考 [ShqWW/lightnovel-download](https://github.com/ShqWW/lightnovel-download) 的分卷选择、封面展示与进度提示。
 
-提交 [Issue](https://github.com/EmoSakura/wenku8-txt-to-epub/issues) 时，请附上软件版本、操作步骤和错误信息。转换问题可附最小测试文本，请勿包含账号凭据或私人信息。
+反馈请提交 [Issue](https://github.com/EmoSakura/wenku8-txt-to-epub/issues)，附版本、步骤及错误信息。
