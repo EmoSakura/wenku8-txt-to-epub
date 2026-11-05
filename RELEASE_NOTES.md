@@ -9,3 +9,5 @@
 在线模式仍需先读取完整 TXT，再仅导出所选卷。封面为网站书籍封面，不含正文插图。EPUB 在阅读器中可显示封面，文件管理器缩略图依赖系统支持；TXT 本身不能嵌入封面。
 
 交互设计参考：https://github.com/ShqWW/lightnovel-download
+
+另已下载 Release 中的 Windows x64 EXE，核对 SHA-256，并在 Windows 11（10.0.29695）本机通过窗口启动、图标与封面预览、选卷 EPUB/TXT 导出测试。在线 TXT 和网站封面读取已在本机验证。
